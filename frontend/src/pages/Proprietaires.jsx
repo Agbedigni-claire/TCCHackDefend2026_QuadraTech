@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import api from '../api/client'
+import { useAuth } from '../context/AuthContext'
 import { toRelativeUrl, STATUT_LABELS } from '../utils'
 
 const EMPTY = { nom: '', prenom: '', email: '', telephone: '', numero_identite: '' }
 
 export default function Proprietaires() {
+  const { user: me } = useAuth()
+  const canWrite = me?.role === 'admin' || me?.role === 'agent'
+
   const [items,          setItems]          = useState([])
   const [loading,        setLoading]        = useState(true)
+  const [loadErr,        setLoadErr]        = useState(null)
   const [showForm,       setShowForm]       = useState(false)
   const [form,           setForm]           = useState(EMPTY)
   const [formErr,        setFormErr]        = useState(null)
@@ -16,9 +21,15 @@ export default function Proprietaires() {
   const [qrModal,        setQrModal]        = useState(null)
 
   async function load() {
-    const { data } = await api.get('/api/proprietaires/')
-    setItems(data.results ?? data)
-    setLoading(false)
+    setLoadErr(null)
+    try {
+      const { data } = await api.get('/api/proprietaires/')
+      setItems(data.results ?? data)
+    } catch {
+      setLoadErr('Accès non autorisé ou erreur de chargement.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => { load() }, [])
@@ -76,9 +87,11 @@ export default function Proprietaires() {
 
       <div className="page-header">
         <h2>Propriétaires</h2>
-        <button className="btn btn-primary" onClick={() => setShowForm(v => !v)}>
-          {showForm ? 'Annuler' : '+ Nouveau propriétaire'}
-        </button>
+        {canWrite && (
+          <button className="btn btn-primary" onClick={() => setShowForm(v => !v)}>
+            {showForm ? 'Annuler' : '+ Nouveau propriétaire'}
+          </button>
+        )}
       </div>
 
       {showForm && (
@@ -112,6 +125,8 @@ export default function Proprietaires() {
           </form>
         </div>
       )}
+
+      {loadErr && <div className="alert alert-error">{loadErr}</div>}
 
       {loading ? (
         <p className="text-muted">Chargement…</p>

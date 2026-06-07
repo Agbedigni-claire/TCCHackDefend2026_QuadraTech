@@ -25,7 +25,7 @@ export default function Navbar() {
         {user && (
           <>
             <NavLink to="/carte">Carte</NavLink>
-            <NavLink to="/proprietaires">Propriétaires</NavLink>
+            {(isAdmin || isAgent) && <NavLink to="/proprietaires">Propriétaires</NavLink>}
             <NavLink to="/transactions">Transactions</NavLink>
             <NavLink to="/litiges">Litiges</NavLink>
             <NavLink to="/blockchain">Blockchain</NavLink>

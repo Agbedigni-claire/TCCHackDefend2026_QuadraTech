@@ -59,6 +59,18 @@ class RegisterSerializer(serializers.ModelSerializer):
         return Utilisateur.objects.create_user(**validated_data)
 
 
+class AdminCreateSerializer(serializers.ModelSerializer):
+    """Création d'un compte par un admin — tous les rôles sont autorisés."""
+    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
+
+    class Meta:
+        model = Utilisateur
+        fields = ['username', 'email', 'password', 'role']
+
+    def create(self, validated_data):
+        return Utilisateur.objects.create_user(**validated_data)
+
+
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True, validators=[validate_password])

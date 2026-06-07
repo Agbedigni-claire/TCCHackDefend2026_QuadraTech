@@ -17,7 +17,7 @@ import Blockchain from './pages/Blockchain'
 import Alertes from './pages/Alertes'
 import VerifierDocument from './pages/VerifierDocument'
 import ProfilUtilisateur from './pages/ProfilUtilisateur'
-import GestionUtilisateurs from './pages/GestionUtilisateurs'
+import AdminPanel from './pages/AdminPanel'
 
 function AppLayout() {
   return (
@@ -59,7 +59,7 @@ export default function App() {
               <Route path="/alertes"            element={<Alertes />} />
               <Route path="/verifier-document"  element={<VerifierDocument />} />
               <Route path="/profil"             element={<ProfilUtilisateur />} />
-              <Route path="/gestion-utilisateurs" element={<GestionUtilisateurs />} />
+              <Route path="/gestion-utilisateurs" element={<AdminPanel />} />
             </Route>
           </Route>
         </Routes>

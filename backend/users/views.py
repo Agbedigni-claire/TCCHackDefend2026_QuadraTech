@@ -10,6 +10,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from api.permissions import IsAdmin
 from .models import Utilisateur
 from .serializers import (
+    AdminCreateSerializer,
     AdminUtilisateurSerializer,
     ChangePasswordSerializer,
     RegisterSerializer,
@@ -78,24 +79,37 @@ class ChangePasswordView(APIView):
         return Response({'detail': 'Mot de passe modifié avec succès.'})
 
 
-class UtilisateurListView(generics.ListAPIView):
-    """GET /api/utilisateurs/ — liste tous les comptes (admin seulement)."""
+class UtilisateurListView(generics.ListCreateAPIView):
+    """GET /api/utilisateurs/ — liste tous les comptes (admin seulement).
+    POST /api/utilisateurs/ — crée un compte avec n'importe quel rôle (admin seulement)."""
     queryset = Utilisateur.objects.all().order_by('date_joined')
-    serializer_class = AdminUtilisateurSerializer
     permission_classes = [IsAdmin]
+    pagination_class = None
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return AdminCreateSerializer
+        return AdminUtilisateurSerializer
 
 
-class UtilisateurDetailView(generics.RetrieveUpdateAPIView):
-    """GET/PATCH /api/utilisateurs/<id>/ — détail + modification de rôle (admin)."""
+class UtilisateurDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """GET/PATCH/DELETE /api/utilisateurs/<id>/ — détail, modification et suppression (admin)."""
     queryset = Utilisateur.objects.all()
     serializer_class = AdminUtilisateurSerializer
     permission_classes = [IsAdmin]
 
     def update(self, request, *args, **kwargs):
-        # Empêcher un admin de rétrograder son propre compte
         if self.get_object() == request.user and 'role' in request.data:
             return Response(
                 {'detail': 'Vous ne pouvez pas modifier votre propre rôle.'},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        if self.get_object() == request.user:
+            return Response(
+                {'detail': 'Vous ne pouvez pas supprimer votre propre compte.'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return super().destroy(request, *args, **kwargs)

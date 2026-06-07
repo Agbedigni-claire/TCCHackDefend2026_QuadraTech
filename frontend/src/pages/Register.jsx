@@ -8,7 +8,7 @@ export default function Register() {
   const navigate  = useNavigate()
   const { login } = useAuth()
   const [form, setForm] = useState({
-    username: '', email: '', password: '', confirm: '', role: 'agent',
+    username: '', email: '', password: '', confirm: '', role: 'proprietaire',
   })
   const [error, setError] = useState(null)
   const [busy, setBusy]   = useState(false)
@@ -81,7 +81,6 @@ export default function Register() {
           <div className="form-group">
             <label className="form-label">Rôle</label>
             <select className="form-control" {...field('role')}>
-              <option value="agent">Agent</option>
               <option value="proprietaire">Propriétaire</option>
             </select>
           </div>
