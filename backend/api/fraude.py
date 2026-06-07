@@ -3,6 +3,21 @@ from datetime import timedelta
 from django.utils import timezone
 
 
+def _push_alerte(alerte):
+    """Notifie les admin/agents par push quand une alerte est créée."""
+    try:
+        from .push_service import notify_admins_agents
+        niveaux = {'faible': '🟡', 'moyen': '🟠', 'critique': '🔴'}
+        icone = niveaux.get(alerte.niveau, '⚠️')
+        notify_admins_agents(
+            title=f'{icone} Alerte IA — {alerte.get_niveau_display()}',
+            body=alerte.description[:100],
+            data={'terrainId': alerte.terrain.pk, 'screen': 'terrain'},
+        )
+    except Exception:
+        pass  # Ne jamais bloquer la transaction pour une notification
+
+
 def analyser_transaction(transaction):
     """
     Applique les règles métier de détection de fraude après création d'une transaction.
@@ -23,7 +38,7 @@ def analyser_transaction(transaction):
         .count()
     )
     if nb_30j >= 2:
-        Alerte.objects.create(
+        a = Alerte.objects.create(
             terrain=terrain,
             type_alerte=Alerte.TypeAlerte.TRANSACTION_REPETEE,
             description=(
@@ -32,6 +47,7 @@ def analyser_transaction(transaction):
             ),
             niveau=Alerte.Niveau.CRITIQUE if nb_30j >= 3 else Alerte.Niveau.MOYEN,
         )
+        _push_alerte(a)
 
     # ── Règle 2 : même vendeur > 3 transactions en 7 jours ────────────────
     sept_j = maintenant - timedelta(days=7)
@@ -42,7 +58,7 @@ def analyser_transaction(transaction):
         .count()
     )
     if nb_7j >= 3:
-        Alerte.objects.create(
+        a = Alerte.objects.create(
             terrain=terrain,
             type_alerte=Alerte.TypeAlerte.VENDEUR_SUSPECT,
             description=(
@@ -51,6 +67,7 @@ def analyser_transaction(transaction):
             ),
             niveau=Alerte.Niveau.CRITIQUE,
         )
+        _push_alerte(a)
 
     # ── Règle 3 : deux transactions sur le même terrain le même jour ───────
     aujourd_hui = maintenant.date()
@@ -61,7 +78,7 @@ def analyser_transaction(transaction):
         .exists()
     )
     if double_tx:
-        Alerte.objects.create(
+        a = Alerte.objects.create(
             terrain=terrain,
             type_alerte=Alerte.TypeAlerte.DOUBLE_TRANSACTION,
             description=(
@@ -71,3 +88,4 @@ def analyser_transaction(transaction):
             ),
             niveau=Alerte.Niveau.CRITIQUE,
         )
+        _push_alerte(a)

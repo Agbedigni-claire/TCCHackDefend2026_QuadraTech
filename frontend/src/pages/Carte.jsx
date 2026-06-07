@@ -8,9 +8,9 @@ import { STATUT_LABELS } from '../utils'
 const LOME = [6.1375, 1.2123]
 
 const STATUT_COLORS = {
-  libre:          '#10b981',  /* émeraude logo */
-  en_transaction: '#f97316',
-  litige:         '#ef4444',
+  libre:          '#2563eb',
+  en_transaction: '#60a5fa',
+  litige:         '#1d4ed8',
 }
 
 function parseGPS(str) {
@@ -41,15 +41,15 @@ export default function Carte() {
         <h2>Carte des terrains</h2>
         <div className="carte-legend">
           <span className="legend-item">
-            <span className="legend-dot" style={{ background: '#10b981' }} />
+            <span className="legend-dot" style={{ background: '#2563eb' }} />
             Libre
           </span>
           <span className="legend-item">
-            <span className="legend-dot" style={{ background: '#f97316' }} />
+            <span className="legend-dot" style={{ background: '#60a5fa' }} />
             En transaction
           </span>
           <span className="legend-item">
-            <span className="legend-dot" style={{ background: '#ef4444' }} />
+            <span className="legend-dot" style={{ background: '#1d4ed8' }} />
             Litige
           </span>
         </div>

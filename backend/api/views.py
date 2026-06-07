@@ -18,7 +18,7 @@ from rest_framework.views import APIView
 
 from .blockchain import ajouter_bloc, verifier_chaine
 from .fraude import analyser_transaction
-from .models import Alerte, Bloc, Document, Litige, Proprietaire, Terrain, Transaction
+from .models import Alerte, Bloc, Document, Litige, Proprietaire, PushToken, Terrain, Transaction
 from .permissions import (
     AnyAuthenticatedCanReadOrCreate,
     IsAdmin,
@@ -307,6 +307,28 @@ class AlerteViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAdminOrAgent]
     filter_backends = [filters.SearchFilter]
     search_fields = ['type_alerte', 'niveau', 'terrain__adresse']
+
+
+class PushTokenView(APIView):
+    """POST /api/push-token/ — enregistre ou met à jour le push token d'un appareil."""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        token = request.data.get('token', '').strip()
+        if not token:
+            return Response({'error': 'Token requis.'}, status=400)
+        if not token.startswith('ExponentPushToken['):
+            return Response({'error': 'Format de token invalide.'}, status=400)
+        PushToken.objects.update_or_create(
+            token=token,
+            defaults={'utilisateur': request.user},
+        )
+        return Response({'status': 'ok'})
+
+    def delete(self, request):
+        token = request.data.get('token', '').strip()
+        PushToken.objects.filter(token=token, utilisateur=request.user).delete()
+        return Response(status=204)
 
 
 class BlockchainView(APIView):

@@ -34,13 +34,13 @@ const IconDocument = () => (
 
 const TIMELINE_CONFIG = {
   transaction:    { icon: <IconTransaction />,    label: 'Transaction',      color: '#2563eb' },
-  litige:         { icon: <IconLitige />,         label: 'Litige déclaré',   color: '#ef4444' },
-  litige_resolu:  { icon: <IconLitigeResolu />,   label: 'Litige résolu',    color: '#16a34a' },
-  alerte:         { icon: <IconAlerte />,         label: 'Alerte IA',        color: '#f97316' },
+  litige:         { icon: <IconLitige />,         label: 'Litige déclaré',   color: '#1d4ed8' },
+  litige_resolu:  { icon: <IconLitigeResolu />,   label: 'Litige résolu',    color: '#2563eb' },
+  alerte:         { icon: <IconAlerte />,         label: 'Alerte IA',        color: '#60a5fa' },
   document:       { icon: <IconDocument />,       label: 'Document',         color: '#64748b' },
 }
 
-const NIVEAU_COLORS = { faible: '#86efac', moyen: '#fbbf24', critique: '#ef4444' }
+const NIVEAU_COLORS = { faible: '#93c5fd', moyen: '#3b82f6', critique: '#1e40af' }
 
 function fmtDate(iso) {
   return new Date(iso).toLocaleDateString('fr-FR', {

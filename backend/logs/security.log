@@ -1,0 +1,15 @@
+2026-06-07 11:12:55 [WARNING] trustland.security: Tentative non authentifiee | POST /api/users/register/ | IP=127.0.0.1 | HTTP=201
+2026-06-07 11:12:57 [INFO] trustland.security: LOGIN_OK | user=solangekpetche | IP=127.0.0.1
+2026-06-07 11:12:57 [WARNING] trustland.security: Tentative non authentifiee | POST /api/token/ | IP=127.0.0.1 | HTTP=200
+2026-06-07 11:53:02 [ERROR] django.security.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "F:\semestre 4 2025-2026\PP\TCC2\TrustLand\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "F:\semestre 4 2025-2026\PP\TCC2\TrustLand\venv\Lib\site-packages\django\utils\deprecation.py", line 308, in __call__
+    response = self.process_request(request)
+  File "F:\semestre 4 2025-2026\PP\TCC2\TrustLand\venv\Lib\site-packages\django\middleware\common.py", line 48, in process_request
+    host = request.get_host()
+  File "F:\semestre 4 2025-2026\PP\TCC2\TrustLand\venv\Lib\site-packages\django\http\request.py", line 206, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+2026-06-07 12:07:57 [WARNING] trustland.security: Tentative non authentifiee | POST /api/token/refresh/ | IP=127.0.0.1 | HTTP=200

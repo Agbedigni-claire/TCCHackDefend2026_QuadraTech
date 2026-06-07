@@ -8,6 +8,7 @@ from .views import (
     DocumentViewSet,
     LitigeViewSet,
     ProprietaireViewSet,
+    PushTokenView,
     StatsView,
     TerrainViewSet,
     TransactionViewSet,
@@ -26,4 +27,5 @@ urlpatterns = [
     path('stats/',               StatsView.as_view(),              name='stats'),
     path('blockchain/verifier/', BlockchainVerifierView.as_view(), name='blockchain-verifier'),
     path('blockchain/',          BlockchainView.as_view(),         name='blockchain'),
+    path('push-token/',          PushTokenView.as_view(),          name='push-token'),
 ]

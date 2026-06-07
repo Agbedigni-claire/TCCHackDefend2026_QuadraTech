@@ -6,15 +6,15 @@ import {
 import api from '../api/client'
 
 const STATUT_COLORS = {
-  libre:          '#10b981',  /* émeraude logo */
-  en_transaction: '#f97316',
-  litige:         '#ef4444',
+  libre:          '#2563eb',
+  en_transaction: '#60a5fa',
+  litige:         '#1d4ed8',
 }
 
 const NIVEAU_COLORS = {
-  faible:   '#6ee7b7',        /* émeraude clair logo */
-  moyen:    '#fbbf24',
-  critique: '#ef4444',
+  faible:   '#93c5fd',
+  moyen:    '#3b82f6',
+  critique: '#1e40af',
 }
 
 function StatCard({ label, value, color, sub }) {
@@ -64,9 +64,9 @@ export default function Dashboard() {
 
       <div className="dashboard-stats-grid">
         <StatCard label="Terrains enregistrés"  value={stats.terrains_total} />
-        <StatCard label="Terrains libres"        value={stats.terrains_par_statut.libre}          color="green" />
-        <StatCard label="En transaction"         value={stats.terrains_par_statut.en_transaction}  color="orange" />
-        <StatCard label="En litige"              value={stats.terrains_par_statut.litige}          color="red" />
+        <StatCard label="Terrains libres"        value={stats.terrains_par_statut.libre}          color="blue" />
+        <StatCard label="En transaction"         value={stats.terrains_par_statut.en_transaction}  color="blue" />
+        <StatCard label="En litige"              value={stats.terrains_par_statut.litige}          color="blue" />
         <StatCard label="Transactions totales"   value={stats.transactions_total} />
         <StatCard label="Litiges ouverts"        value={stats.litiges_ouverts} />
         <StatCard

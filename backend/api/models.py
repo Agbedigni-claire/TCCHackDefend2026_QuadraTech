@@ -232,6 +232,26 @@ class Bloc(models.Model):
         verbose_name_plural = "Blocs"
 
 
+# ── Push tokens (mobile) ─────────────────────────────────────────────────────
+
+class PushToken(models.Model):
+    """Stocke les tokens Expo Push des appareils mobiles par utilisateur."""
+    utilisateur = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='push_tokens',
+    )
+    token = models.CharField(max_length=250, unique=True)
+    date_enregistrement = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Push Token'
+        verbose_name_plural = 'Push Tokens'
+
+    def __str__(self):
+        return f"{self.utilisateur.username} — {self.token[:30]}…"
+
+
 # ── Journal d'audit ───────────────────────────────────────────────────────────
 
 class JournalAudit(models.Model):

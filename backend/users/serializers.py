@@ -19,8 +19,8 @@ class TokenPairSerializer(TokenObtainPairSerializer):
 class UtilisateurSerializer(serializers.ModelSerializer):
     class Meta:
         model = Utilisateur
-        fields = ['id', 'username', 'email', 'role', 'is_active', 'date_joined']
-        read_only_fields = ['date_joined', 'role', 'is_active']
+        fields = ['id', 'username', 'email', 'role', 'is_active', 'date_joined', 'last_login']
+        read_only_fields = ['date_joined', 'last_login', 'role', 'is_active']
 
 
 class AdminUtilisateurSerializer(serializers.ModelSerializer):
