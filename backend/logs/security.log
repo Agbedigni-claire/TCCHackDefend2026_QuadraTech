@@ -22,3 +22,10 @@ django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. Y
 2026-06-07 21:03:27 [WARNING] trustland.security: Tentative non authentifiee | POST /api/token/ | IP=127.0.0.1 | HTTP=200
 2026-06-07 21:14:34 [INFO] trustland.security: WRITE | POST /api/proprietaires/ | user=admin | IP=127.0.0.1 | HTTP=500
 2026-06-07 21:31:08 [INFO] trustland.security: WRITE | POST /api/proprietaires/ | user=admin | IP=127.0.0.1 | HTTP=500
+2026-06-07 21:33:39 [INFO] trustland.security: WRITE | POST /api/proprietaires/ | user=admin | IP=127.0.0.1 | HTTP=201
+2026-06-07 21:34:15 [INFO] trustland.security: LOGIN_OK | user=abinana | IP=127.0.0.1
+2026-06-07 21:34:15 [WARNING] trustland.security: Tentative non authentifiee | POST /api/token/ | IP=127.0.0.1 | HTTP=200
+2026-06-07 21:37:17 [INFO] trustland.security: WRITE | POST /api/terrains/ | user=mariamharouna | IP=127.0.0.1 | HTTP=201
+2026-06-07 21:39:11 [WARNING] trustland.security: Tentative non authentifiee | POST /api/users/register/ | IP=127.0.0.1 | HTTP=201
+2026-06-07 21:39:12 [INFO] trustland.security: LOGIN_OK | user=clarisseesse | IP=127.0.0.1
+2026-06-07 21:39:12 [WARNING] trustland.security: Tentative non authentifiee | POST /api/token/ | IP=127.0.0.1 | HTTP=200
